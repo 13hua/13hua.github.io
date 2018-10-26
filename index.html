@@ -341,15 +341,15 @@
 <li><p>gitment 评论初始化的时候弹出 Error：validation failed。</p>
 <p>issue 的标签 label 有长度限制！labels 的最大长度限制是 50 个字符。</p>
 <p>修改 next/layout/_third-party/comments/gitment.swig</p>
-<p>id: window.location.pathname</p>
-<p>找到上面一行，将 id 的值修改成如下即可：</p>
-<p><code>id: &#39;&#39;</code></p>
-<p>但是，title 也有可能超过 50 个字符怎么办呢？修改成日期不就可以了么，</p>
-<p><code>id: &#39;&#39;</code></p>
-<p>#######愿圣光与你同在！</p>
-<p>如本文有任何问题欢迎指正，谢谢！</p>
 </li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id: window.location.pathname</span><br></pre></td></tr></table></figure>
+<p>找到上面一行，将 id 的值修改成如下即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id: &apos;&#123;&#123; page.title &#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>但是，title 也有可能超过 50 个字符怎么办呢？修改成日期不就可以了么，</p>
+<p>id: ‘‘</p>
+<p>#######愿圣光与你同在！</p>
+<p>如本文有任何问题欢迎指正，谢谢！</p>
 <blockquote>
 <p>参考：</p>
 </blockquote>
