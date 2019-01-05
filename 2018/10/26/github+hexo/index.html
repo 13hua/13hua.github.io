@@ -95,7 +95,7 @@
 <meta property="og:description" content="以前就想折腾这个 github 的博客，怎奈各种加班没有时间，最近比较闲就拿出来折腾了，其实人家还是很兴奋的了啦，折腾出来的时候还是很有成就感的，终于有了自己的博客了，还是自己一手搭建的，虽然其中也踩了不少的坑，傻笑+手舞足蹈，你没有看错，嗯，就是一个疯子。然后这个网易云音乐就舍不得删了，哈哈，至于网易云音乐的外链播放器怎么生成，自己百度吧，哈哈哈。 博客的创建与发布 12345hexo ne">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cfx1314.github.io/13huablog.github.io/13huablog.github.io/2018/10/26/github+hexo/search-1.png">
-<meta property="og:updated_time" content="2018-11-03T14:59:55.461Z">
+<meta property="og:updated_time" content="2019-01-05T05:19:24.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="github+hexo搭建个人博客">
 <meta name="twitter:description" content="以前就想折腾这个 github 的博客，怎奈各种加班没有时间，最近比较闲就拿出来折腾了，其实人家还是很兴奋的了啦，折腾出来的时候还是很有成就感的，终于有了自己的博客了，还是自己一手搭建的，虽然其中也踩了不少的坑，傻笑+手舞足蹈，你没有看错，嗯，就是一个疯子。然后这个网易云音乐就舍不得删了，哈哈，至于网易云音乐的外链播放器怎么生成，自己百度吧，哈哈哈。 博客的创建与发布 12345hexo ne">
@@ -260,20 +260,26 @@
   
     <div class="site-search">
       
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
     <span class="popup-btn-close">
       <i class="fa fa-times-circle"></i>
     </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
-    </div>
   </div>
-  <div id="local-search-result"></div>
-</div>
+
 
 
 
@@ -375,6 +381,11 @@
              </span>
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
           
 
           
@@ -664,7 +675,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -682,6 +693,26 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
@@ -1213,6 +1244,19 @@
 
 
 
+  
+  
+  
+  <link rel="stylesheet" href="/13huablog.github.io/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/13huablog.github.io/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/13huablog.github.io/js/src/algolia-search.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1326,6 +1370,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   
