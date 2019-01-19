@@ -94,10 +94,12 @@
 <meta property="og:site_name" content="十三画的博客">
 <meta property="og:description" content="自出道以来一直想写个单元测试来的，但是一直都在想，终于今天开始写了，也算迈出了小小的一步。 INSTALLATION(安装)全局安装，(非必需，虽然很多文章都要求全局安装，但是廖雪峰大大建议尽量不要全局安装，因为全局模块会影响到所有 Node.js 的工程) npm install --global mocha 项目局部安装 npm install --save-dev mocha 如果 npm">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-03T16:29:31.809Z">
+<meta property="og:image" content="https://cfx1314.github.io/13huablog.github.io/13huablog.github.io/2018/11/03/mocha/1.png">
+<meta property="og:updated_time" content="2019-01-19T06:13:18.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于单元测试mocha的学习笔记">
 <meta name="twitter:description" content="自出道以来一直想写个单元测试来的，但是一直都在想，终于今天开始写了，也算迈出了小小的一步。 INSTALLATION(安装)全局安装，(非必需，虽然很多文章都要求全局安装，但是廖雪峰大大建议尽量不要全局安装，因为全局模块会影响到所有 Node.js 的工程) npm install --global mocha 项目局部安装 npm install --save-dev mocha 如果 npm">
+<meta name="twitter:image" content="https://cfx1314.github.io/13huablog.github.io/13huablog.github.io/2018/11/03/mocha/1.png">
 
 
 
@@ -403,6 +405,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var assert = require(&apos;assert&apos;);</span><br><span class="line">describe(&apos;Array&apos;, function() &#123;</span><br><span class="line">  describe(&apos;#indexOf()&apos;, function() &#123;</span><br><span class="line">    it(&apos;should return -1 when the value is not present&apos;, function() &#123;</span><br><span class="line">      assert.equal([1,2,3].indexOf(4), -1);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>启动终端/命令行工具(git bash)，在当前项目目录下 输入命令 mocha</p>
 <p><code>mocha</code><br>运行结果如下：</p>
+<p><img src="/13huablog.github.io/13huablog.github.io/2018/11/03/mocha/1.png" alt="运行结果" title="运行结果"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">lenovo@LAPTOP-QGCH84J8 MINGW64 /e/workSpace/study/1-单元测试/test</span><br><span class="line">$ mocha</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  Array</span><br><span class="line">    #indexOf()</span><br><span class="line">      √ should return -1 when the value is not present</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  1 passing (5ms)</span><br></pre></td></tr></table></figure>
 <p>在 package.json 中设置脚本:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;mocha&quot;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
