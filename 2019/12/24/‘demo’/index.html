@@ -86,13 +86,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="十三画的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="这里是demo正文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="‘demo’">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/‘demo’/index.html">
 <meta property="og:site_name" content="十三画的博客">
+<meta property="og:description" content="这里是demo正文">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-24T03:09:47.297Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="十三画的博客">
+<meta name="twitter:title" content="‘demo’">
+<meta name="twitter:description" content="这里是demo正文">
 
 
 
@@ -122,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/12/24/‘demo’/">
 
 
 
 
 
-  <title>十三画的博客 - 人各有价，千万不要活得太便宜</title>
+  <title>‘demo’ | 十三画的博客</title>
   
 
 
@@ -157,8 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
@@ -285,9 +288,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -317,9 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/24/‘demo’/" itemprop="url">‘demo’</a></h1>
+          <h1 class="post-title" itemprop="name headline">‘demo’</h1>
         
 
         <div class="post-meta">
@@ -344,6 +345,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/24/‘demo’/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/12/24/‘demo’/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -380,19 +391,8 @@
       
 
       
-        
-          
-          这里是demo正文
+        <p>这里是demo正文</p>
 
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/24/‘demo’/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
     
@@ -402,6 +402,35 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/13hua.github.io/images/wechatpay.jpg" alt="十三画 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/13hua.github.io/images/alipay.jpg" alt="十三画 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
@@ -409,12 +438,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -424,10 +453,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -435,6 +465,17 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -654,6 +695,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -705,6 +750,30 @@
       </style>
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: '1577156959000', 
+            owner: '13hua',
+            repo: '13hua.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '787c39b487eb97a52330fb539855c39fe8eab6ff',
+            
+                client_id: 'ae7f5ff5fd4d2c5dd641'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
     
 
 
