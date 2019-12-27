@@ -100,10 +100,12 @@
 <meta property="og:site_name" content="十三画的博客">
 <meta property="og:description" content="网络基础TCP/IP为了理解http，我们有必要事先了解一下TCP/IP协议族。 通常使用的网络（包括互联网）是在TCP/IP的基础上运作的，而HTTP属于它的一个子集。 计算机与网络设备要相互通信，双方就必须基于相同的方法。如，如何探测到通信目标、有哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同的硬件、操作系统之间的通信，所有的这一切都需要一种规则。而我们把这种规">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-27T10:19:44.069Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/TCP-IP协议/img-1.png">
+<meta property="og:updated_time" content="2019-12-27T10:44:20.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP&#x2F;IP协议">
 <meta name="twitter:description" content="网络基础TCP/IP为了理解http，我们有必要事先了解一下TCP/IP协议族。 通常使用的网络（包括互联网）是在TCP/IP的基础上运作的，而HTTP属于它的一个子集。 计算机与网络设备要相互通信，双方就必须基于相同的方法。如，如何探测到通信目标、有哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同的硬件、操作系统之间的通信，所有的这一切都需要一种规则。而我们把这种规">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/24/TCP-IP协议/img-1.png">
 
 
 
@@ -419,7 +421,8 @@
 <li><p>数据链路层<br>数据链路层又名链路层、网络接口层。用来处理网路的硬件部分。包括控制操作系统、硬件的设备驱动、NIC(Network Interface Card 网络适配器即 网卡)，及光纤等物理可见部分（还包括连接等一切传输媒介）。硬件上的范畴均在数据链路层的作用范围之内。</p>
 </li>
 </ol>
-<h2 id="TCP-IP通信传输"><a href="#TCP-IP通信传输" class="headerlink" title="TCP/IP通信传输"></a>TCP/IP通信传输</h2><p>发送端从应用层往下走，接收端从数据链路层往上走。用http举例来说明：</p>
+<h2 id="TCP-IP通信传输"><a href="#TCP-IP通信传输" class="headerlink" title="TCP/IP通信传输"></a>TCP/IP通信传输</h2><p><img src="/2019/12/24/TCP-IP协议/img-1.png" alt="TCP-IP协议图" title="TCP-IP协议图"></p>
+<p>发送端从应用层往下走，接收端从数据链路层往上走。用http举例来说明：</p>
 <ul>
 <li>首先，作为发送端的客户端在应用层（http协议）发粗一个想看某个web页面的http请求</li>
 <li>接着，为了传输方便，在传输层（TCP协议）把从应用层处收到的数据（HTTP请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。</li>
