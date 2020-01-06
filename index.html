@@ -390,9 +390,8 @@
       
         
           
-          网络基础TCP/IP为了理解http，我们有必要事先了解一下TCP/IP协议族。
-通常使用的网络（包括互联网）是在TCP/IP的基础上运作的，而HTTP属于它的一个子集。
-计算机与网络设备要相互通信，双方就必须基于相同的方法。如，如何探测到通信目标、有哪一边先发起通信、使用哪种语言进行通信、怎样结束
+          网络基础TCP/IP为了理解http，我们有必要事先了解一下TCP/IP协议族。通常使用的网络（包括互联网）是在TCP/IP的基础上运作的，而HTTP属于它的一个子集。
+计算机与网络设备要相互通信，双方就必须基于相同的方法。如，如何探测到通信目标、有哪一边先发起通信、使用哪种语言进行通信、怎样结束通
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -510,9 +509,16 @@
       
         
           
-          canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。
-我们先来了解一下canvas的渲染
-canvas上下文是状态机canvas API 都在其上下文对象cont
+          关于Canvas的优化，主要从一下几个方面入手
+
+离屏渲染canvas上预渲染相似的图形或重复的对象
+避免浮点数的坐标点，用整数取而代之
+避免在用drawImage时缩放图像
+使用多层画布去画一个重复的场景
+用css设置大的背景图
+用transforms特性缩放画布
+关闭透明度
+将画布的函数调用集合
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -998,23 +1004,11 @@ npm install --global
                   </li>
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://www.uisdc.com/" title="优设" target="_blank">优设</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
                     <a href="http://www.zhangxinxu.com/" title="张鑫旭" target="_blank">张鑫旭</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
                     <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://ife.baidu.com/" title="百度前端技术学院" target="_blank">百度前端技术学院</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">

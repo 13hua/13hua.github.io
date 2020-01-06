@@ -92,18 +92,20 @@
 
 
 
-<meta name="description" content="canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。 我们先来了解一下canvas的渲染 canvas上下文是状态机canvas API 都在其上下文对象context上抵用。1const context = canvas.getContext(&amp;apos;2d">
+<meta name="description" content="关于Canvas的优化，主要从一下几个方面入手  离屏渲染canvas上预渲染相似的图形或重复的对象 避免浮点数的坐标点，用整数取而代之 避免在用drawImage时缩放图像 使用多层画布去画一个重复的场景 用css设置大的背景图 用transforms特性缩放画布 关闭透明度 将画布的函数调用集合到一起（例如，画一条折线，而不要画多条分开的直线） 避免不必要的画布状态改变 渲染画布中的不同点，而">
 <meta name="keywords" content="canvas">
 <meta property="og:type" content="article">
 <meta property="og:title" content="canvas优化">
 <meta property="og:url" content="http://yoursite.com/2019/12/24/canvas优化/index.html">
 <meta property="og:site_name" content="十三画的博客">
-<meta property="og:description" content="canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。 我们先来了解一下canvas的渲染 canvas上下文是状态机canvas API 都在其上下文对象context上抵用。1const context = canvas.getContext(&amp;apos;2d">
+<meta property="og:description" content="关于Canvas的优化，主要从一下几个方面入手  离屏渲染canvas上预渲染相似的图形或重复的对象 避免浮点数的坐标点，用整数取而代之 避免在用drawImage时缩放图像 使用多层画布去画一个重复的场景 用css设置大的背景图 用transforms特性缩放画布 关闭透明度 将画布的函数调用集合到一起（例如，画一条折线，而不要画多条分开的直线） 避免不必要的画布状态改变 渲染画布中的不同点，而">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-27T09:16:06.227Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/canvas优化/Canvas_drawimage.jpg">
+<meta property="og:updated_time" content="2020-01-06T07:28:38.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="canvas优化">
-<meta name="twitter:description" content="canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。 我们先来了解一下canvas的渲染 canvas上下文是状态机canvas API 都在其上下文对象context上抵用。1const context = canvas.getContext(&amp;apos;2d">
+<meta name="twitter:description" content="关于Canvas的优化，主要从一下几个方面入手  离屏渲染canvas上预渲染相似的图形或重复的对象 避免浮点数的坐标点，用整数取而代之 避免在用drawImage时缩放图像 使用多层画布去画一个重复的场景 用css设置大的背景图 用transforms特性缩放画布 关闭透明度 将画布的函数调用集合到一起（例如，画一条折线，而不要画多条分开的直线） 避免不必要的画布状态改变 渲染画布中的不同点，而">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/24/canvas优化/Canvas_drawimage.jpg">
 
 
 
@@ -400,16 +402,103 @@
       
 
       
-        <p>canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。</p>
-<p>我们先来了解一下canvas的渲染</p>
+        <p>关于Canvas的优化，主要从一下几个方面入手</p>
+<ul>
+<li>离屏渲染canvas上预渲染相似的图形或重复的对象</li>
+<li>避免浮点数的坐标点，用整数取而代之</li>
+<li>避免在用drawImage时缩放图像</li>
+<li>使用多层画布去画一个重复的场景</li>
+<li>用css设置大的背景图</li>
+<li>用transforms特性缩放画布</li>
+<li>关闭透明度</li>
+<li>将画布的函数调用集合到一起（例如，画一条折线，而不要画多条分开的直线）</li>
+<li>避免不必要的画布状态改变</li>
+<li>渲染画布中的不同点，而非整个新状态</li>
+<li>尽可能避免shwdowBlur特性</li>
+<li>尽可能避免text rendering</li>
+<li>使用不同的办法清除画布（clearReact()vs.fillRect()vs.调整canvas大小）</li>
+<li>有动画，请使用window.requestAnimationFrame()而非windowsetInterval()</li>
+<li>请谨慎使用大型物理库<br>…</li>
+</ul>
+<p>下面我们来详细说一说Canvas性能优化的事儿。<br>canvas是HTML5出的一个标签，用js控制绘制图形。canvas标签一定要有width和height，不能在style中定义width和height，否则会出现变形、缩放等一系列问题。</p>
+<p>先来了解一下canvas的渲染</p>
 <p><code>canvas上下文是状态机</code>canvas API 都在其上下文对象context<br>上抵用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const context = canvas.getContext(&apos;2d&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>context是一个状态机。你可以改变context的若干状态，而几乎所有的渲染操作，最终的效果与context本身的状态有关系。</p>
+<h3 id="context是一个状态机。"><a href="#context是一个状态机。" class="headerlink" title="context是一个状态机。"></a>context是一个状态机。</h3><p>你可以改变context的若干状态，而几乎所有的渲染操作，最终的效果与context本身的状态有关系。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">context.lineWidth = 5;</span><br><span class="line">context.strokeStyle=&quot;f00&quot;</span><br><span class="line">context.strokeRect(100,100,200,200)</span><br></pre></td></tr></table></figure>
 <p>context.lineWidth 的赋值开销要远远大于普通对象赋值的开销。context不是一个普通的对象，当你调用了context.lineWidth = 5 时，浏览器会需要立刻去做一些事情，这样你下次调用诸如stroke或strokeRect等API时，画出来的正好是5px宽了。（不难想象，这也是一种优化，否则，这些事情就要等到下次stroke之前做，更加会影响性能）。</p>
-<p>我们执行以下赋值操作10^6次</p>
+<p>下面我们来一组实验，将如下代码执行1000,000次：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 10^6times</span><br><span class="line">somePlainObject.lineWidth = 5;  // 3ms </span><br><span class="line">context.lineWidth = 5;  // 40ms</span><br><span class="line">context.lineWidth = &apos;Hello World!&apos;; // 140ms</span><br><span class="line">context.lineWidth = &#123;&#125;; // 600ms</span><br></pre></td></tr></table></figure>
-<p>参考文章<br>MDN：canvas 性能 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas</a></p>
-<p>Canvas 最佳实践（性能篇）：<a href="https://fed.taobao.org/blog/taofed/do71ct/canvas-performance/?spm=taofed.blogs.blog-list.2.6b365ac8l8NLf9" target="_blank" rel="noopener">https://fed.taobao.org/blog/taofed/do71ct/canvas-performance/?spm=taofed.blogs.blog-list.2.6b365ac8l8NLf9</a></p>
+<p>事实证明：对一个普通对象的赋值只消耗了3ms，而对<code>context</code>的赋值则消耗了40ms。值得注意的是，<code>如果你的赋值是非法的，浏览器还需要一些额外的时间来处理非法的输入</code>，正如最后两种情形所示，消耗了140ms 甚至更多。</p>
+<p>对<code>context</code>而言，对不同的属性的赋值开销也是不同的。lineWidth只是开销较小的一类。我们整理了一些其他属性赋值的开销，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">开销</th>
+<th style="text-align:left">开销（非法赋值）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">line[Width/Join/Cap]</td>
+<td style="text-align:left">40+</td>
+<td style="text-align:left">100+</td>
+</tr>
+<tr>
+<td style="text-align:left">[fill/stroke]Style</td>
+<td style="text-align:left">100+</td>
+<td style="text-align:left">200+</td>
+</tr>
+<tr>
+<td style="text-align:left">font</td>
+<td style="text-align:left">1000+</td>
+<td style="text-align:left">1000+</td>
+</tr>
+<tr>
+<td style="text-align:left">text[Align/Baseline]</td>
+<td style="text-align:left">60+</td>
+<td style="text-align:left">100+</td>
+</tr>
+<tr>
+<td style="text-align:left">shadow[Blur/OffsetX]</td>
+<td style="text-align:left">40+</td>
+<td style="text-align:left">100+</td>
+</tr>
+<tr>
+<td style="text-align:left">shadowColor</td>
+<td style="text-align:left">280+</td>
+<td style="text-align:left">400+</td>
+</tr>
+</tbody>
+</table>
+<p>看到这里你应该明白为什么说要尽量减少shwdowBlur、font、text了吧。</p>
+<h3 id="canvas的分层"><a href="#canvas的分层" class="headerlink" title="canvas的分层"></a>canvas的分层</h3><p>使用canvas作动画，在比较复杂的情况下分层是非常有必要的。比如背景的变化很少甚至基本不变，而角色一直在16ms的变化。这种时候就需要将背景和主角分层了。类似于背景始终不变的这种场景可以通过css来设置背景，对于变化频率不高的背景可以使用canvas分层渲染。</p>
+<p>对于canvas分层我们所需要做的，仅仅只是生成多个Canvas实例，把它们重叠放置，每个canvas使用不同的z-index来定义堆叠的次序。然后仅在需要绘制该层的时候（也许是‘永不’）进行重绘。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;canvas id=&quot;clock&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;您的浏览器居然不支持canvas？赶紧换一个吧&lt;/canvas&gt;</span><br><span class="line">&lt;canvas id=&quot;timer&quot; width=&quot;500&quot; height=&quot;400&quot;&gt;您的浏览器居然不支持canvas？赶紧换一个吧&lt;/canvas&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">const canvas1 = document.getElementById(&apos;clock&apos;)</span><br><span class="line">const ctx1 = canvas.getContext(&apos;2d&apos;)</span><br><span class="line"></span><br><span class="line">const canvas2 = document.getElementById(&apos;timer&apos;)</span><br><span class="line">const ctx2 = canvas.getContext(&apos;2d&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><code>注意: 堆叠在上方的canvas中的内容会覆盖住下方的canvas中的内容</code></p>
+<h3 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h3><p>我们来说一说drawImage这个API，使用格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ctx.drawImage(image, dx, dy);</span><br><span class="line">ctx.drawImage(image, dx, dy, dWidth, dHeight);</span><br><span class="line">ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/12/24/canvas优化/Canvas_drawimage.jpg" alt="drawImage图" title="drawImage图"></p>
+<p>— 我们尝试绘制10000次一块320x180的矩形区域，如果数据源是一张320x180的图片,花费了40ms,而如果数据源是一张800x800图片中裁剪出来的320x180的区域，需要花费70ms。我们发现比起数据源是一张较大的图片（我们只是把数据扣下来了而已）的情形，数据源是一张和绘制区域尺寸相仿的情形开销要小一些。可以认为两者相差的开销是‘裁剪’这一个操作的开销。</p>
+<h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><p>我们做了一个实验，绘制一张320x180的图片10000次，当每次绘制在canvas内部是，消耗了40ms，而当每次都绘制在canvas外时，仅消耗了8ms。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 在离屏 canvas 上绘制</span><br><span class="line">var canvasOffscreen = document.createElement(&apos;canvas&apos;);</span><br><span class="line">canvasOffscreen.width = dw;</span><br><span class="line">canvasOffscreen.height = dh;</span><br><span class="line">canvasOffscreen.getContext(&apos;2d&apos;).drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);</span><br><span class="line"></span><br><span class="line">// 在绘制每一帧的时候，绘制这个图形</span><br><span class="line">context.drawImage(canvasOffscreen, x, y);</span><br></pre></td></tr></table></figure>
+<p>我曾经遇到过一个场景，有4000个点，每个点16ms刷新一次，我每一次在canvas内重新绘制的方法渲染的话 不到半个小时浏览器就直接奔溃了。后来偶然之间在网上看到有人使用了离屏渲染的技巧，于是我用了跟上面这段代码很相似的方法，就是先在canvas之外生成一个canvas2实例，在这个canvas2对象上绘制一个点，之后每一次都在canvas对象上使用drawImage的方式绘制4000多个点，结果性能大大提高，浏览器奔溃什么的根本不存在的。</p>
+<p>CSS transforms 特性由于调用GPU，因此更快捷。最好的情况是，不要将小画布放大，而是去将大画布缩小。</p>
+<p>调用window.requestAnimationFrame()时，浏览器会自动进行优化。window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行</p>
+<p>当你准备更新动画时你应该调用此方法。这将使浏览器在下一次重绘之前调用你传入给该方法的动画函数(即你的回调函数)。回调函数执行次数通常是每秒60次，但在大多数遵循W3C建议的浏览器中，回调函数执行次数通常与浏览器屏幕刷新次数相匹配。为了提高性能和电池寿命，因此在大多数浏览器里，当requestAnimationFrame() 运行在后台标签页或者隐藏的<iframe> 里时，requestAnimationFrame() 会被暂停调用以提升性能和电池寿命。</iframe></p>
+<p>回调函数会被传入DOMHighResTimeStamp参数，DOMHighResTimeStamp指示当前被 requestAnimationFrame() 排序的回调函数被触发的时间。在同一个帧中的多个回调函数，它们每一个都会接受到一个相同的时间戳，即使在计算上一个回调函数的工作负载期间已经消耗了一些时间。该时间戳是一个十进制数，单位毫秒，最小精度为1ms(1000μs)。</p>
+<hr>
+<p><strong><em>愿圣光与你同在！</em></strong></p>
+<p>如本文有任何问题欢迎指正，谢谢！</p>
+<blockquote>
+<p>致谢：</p>
+</blockquote>
+<ol>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas" target="_blank" rel="noopener">MDN：canvas 性能</a></p>
+</li>
+<li><p><a href="https://fed.taobao.org/blog/taofed/do71ct/canvas-performance/?spm=taofed.blogs.blog-list.2.6b365ac8l8NLf9" target="_blank" rel="noopener">Canvas 最佳实践（性能篇）</a></p>
+</li>
+</ol>
 
       
     </div>
@@ -466,8 +555,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -537,23 +635,11 @@
                   </li>
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://www.uisdc.com/" title="优设" target="_blank">优设</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
                     <a href="http://www.zhangxinxu.com/" title="张鑫旭" target="_blank">张鑫旭</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
                     <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://ife.baidu.com/" title="百度前端技术学院" target="_blank">百度前端技术学院</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
@@ -569,6 +655,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#context是一个状态机。"><span class="nav-number">1.</span> <span class="nav-text">context是一个状态机。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#canvas的分层"><span class="nav-number">2.</span> <span class="nav-text">canvas的分层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制图像"><span class="nav-number">3.</span> <span class="nav-text">绘制图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#离屏渲染"><span class="nav-number">4.</span> <span class="nav-text">离屏渲染</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
